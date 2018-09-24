@@ -40,7 +40,7 @@ open class SwiftAddressBookPerson : SwiftAddressBookRecord {
 	}
 
 	open class func createVCard(_ people : [SwiftAddressBookPerson]) -> String {
-        let peopleArray = people.flatMap { $0.internalRecord }
+        let peopleArray = people.compactMap { $0.internalRecord }
 		let data = ABPersonCreateVCardRepresentationWithPeople(peopleArray as CFArray).takeRetainedValue() as Data
         return String(data: data, encoding: .utf8)!
 	}
@@ -58,7 +58,7 @@ open class SwiftAddressBookPerson : SwiftAddressBookRecord {
 
 	open func setImage(_ image : UIImage?) -> CFError? {
 		guard let image = image else { return removeImage() }
-		let imageData : Data = UIImagePNGRepresentation(image) ?? Data()
+		let imageData : Data = image.pngData() ?? Data()
 		return errorIfNoSuccess { ABPersonSetImageData(self.internalRecord,  CFDataCreate(nil, (imageData as NSData).bytes.bindMemory(to: UInt8.self, capacity: imageData.count), imageData.count), $0) }
 	}
 

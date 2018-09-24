@@ -33,16 +33,16 @@ class SwiftAddressBookGroupTests: XCTestCase {
 	//MARK: - Helper funtions
 
     func getDateTimestamp() -> String {
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        return formatter.stringFromDate(NSDate())
+        return formatter.string(from: Date())
     }
     
-    func getDate(year: Int,_ month: Int,_ day: Int) -> NSDate {
-        let components = NSDateComponents()
+    func getDate(year: Int,_ month: Int,_ day: Int) -> Date {
+        var components = DateComponents()
         components.year = year
         components.month = month
         components.day = day
-        return NSCalendar.currentCalendar().dateFromComponents(components)!
+        return Calendar.current.date(from: components)!
     }
 }
